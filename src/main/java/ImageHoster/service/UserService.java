@@ -5,8 +5,14 @@ import ImageHoster.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Pattern;
+
 @Service
 public class UserService {
+
+    private final String regex = "^(?=.*[0-9])"
+                                + "(?=.*[a-zA-Z])"
+                                + "(?=.*[@#$%^&]).{3,20}$";
 
     @Autowired
     private UserRepository userRepository;
@@ -30,6 +36,10 @@ public class UserService {
         } else {
             return null;
         }
+    }
+
+    public boolean verifyPassword(String password) {
+        return (Pattern.compile(regex)).matcher(password).matches();
     }
 
 }
